@@ -1,0 +1,53 @@
+<header>
+    <title>Load Data Tool</title>
+    <style>
+        body {
+            font-family: Arial, Helvetica, sans-serif;
+        }
+    </style>
+</header>
+
+<body>
+
+<h3>Load Data Tool</h3>
+
+<form action="https://file-uploader-service.cfapps.io/xls/save" method="post" enctype="multipart/form-data">
+<!--<form action="http://localhost:8080/xls/save" method="post" enctype="multipart/form-data">-->
+<table>
+    <tr>
+        <td><input type="text" name="tableName" id="tableName" placeholder="Enter table name"/></td>
+    </tr>
+    <tr>
+        <td><input name="xlsfile" id="xlsfile" type="file" /></td>
+    </tr>
+    <tr>
+        <td><button name="submit" type="submit">Upload</button></td>
+    </tr>
+</table>
+</form>
+
+<hr>
+
+<form action="https://file-uploader-service.cfapps.io/xls/fetch" method="get">
+<!--<form action="http://localhost:8080/xls/fetch" method="get">-->
+    <table>
+        <tr>
+            <td><input type="text" id="fetchTable" name="fetchTable" placeholder="Enter table name"></td>
+            <td><button name="submit" type="submit">Fetch</button></td>
+        </tr>
+    </table>
+</form>
+
+<hr>
+
+<form action="https://file-uploader-service.cfapps.io/xls/delete" method="post">
+<!--<form action="http://localhost:8080/xls/delete" method="post">-->
+    <table>
+        <tr>
+            <td><input type="text" id="deleteTable" name="deleteTable" placeholder="Enter table to delete"></td>
+            <td><button name="submit" type="submit">Delete</button></td>
+        </tr>
+    </table>
+</form>
+
+</body>

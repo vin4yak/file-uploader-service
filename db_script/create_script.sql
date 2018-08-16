@@ -1,0 +1,1 @@
+CREATE TABLE t_employee_details(id UUID, emp_id bigint, name varchar(255), email varchar(255), department varchar(255));
