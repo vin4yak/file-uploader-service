@@ -33,7 +33,11 @@ dependencies {
 	compile('com.opencsv:opencsv:4.2')
     compile('org.apache.poi:poi:3.17')
     compile('org.apache.poi:poi-ooxml:3.17')
-    compile('org.apache.hive:hive-jdbc:2.3.3') {
+//    compile('org.apache.hive:hive-jdbc:2.3.3') {
+//        exclude group: 'org.eclipse.jetty.aggregate'
+//        exclude group: 'org.slf4j'
+//    }
+    compile('org.apache.hive:hive-jdbc:2.0.0') {
         exclude group: 'org.eclipse.jetty.aggregate'
         exclude group: 'org.slf4j'
     }
@@ -42,7 +46,8 @@ dependencies {
     }
     compile('io.springfox:springfox-swagger-ui:2.9.2')
     compile('io.springfox:springfox-swagger2:2.9.2')
-    runtime('org.postgresql:postgresql')
+
+	runtime('org.postgresql:postgresql')
 	compileOnly('org.projectlombok:lombok')
 	testCompile('org.springframework.boot:spring-boot-starter-test')
 }

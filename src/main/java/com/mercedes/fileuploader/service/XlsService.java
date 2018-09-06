@@ -12,6 +12,8 @@ import org.springframework.web.multipart.MultipartFile;
 
 import java.io.File;
 import java.io.IOException;
+import java.sql.SQLException;
+import java.sql.Statement;
 import java.util.List;
 import java.util.Map;
 
@@ -21,11 +23,14 @@ public class XlsService {
 
     private final JdbcTemplate jdbcTemplate;
 
-    public XlsService(JdbcTemplate jdbcTemplate) {
+    private final Statement statement;
+
+    public XlsService(JdbcTemplate jdbcTemplate, Statement statement) {
         this.jdbcTemplate = jdbcTemplate;
+        this.statement = statement;
     }
 
-    public void parseAndSaveData(MultipartFile multipartFile, String tableName) throws IOException, InvalidFormatException {
+    public void parseAndSaveData(MultipartFile multipartFile, String tableName) throws IOException, InvalidFormatException, SQLException {
         final File file = FileUtil.convertFile(multipartFile);
 
         Workbook workbook = WorkbookFactory.create(file);
@@ -41,7 +46,8 @@ public class XlsService {
 
         buildInsertQuery(sheet, insertQuery);
 
-        jdbcTemplate.execute(insertQuery.toString());
+        statement.execute(insertQuery.toString());
+        //jdbcTemplate.execute(insertQuery.toString());
     }
 
     public Map<String, Object> fetchDetails(String tableName) {
@@ -72,12 +78,11 @@ public class XlsService {
             insertQuery.append("),");
         });
         insertQuery.delete(insertQuery.toString().length()-1, insertQuery.toString().length());
-        insertQuery.append(";");
 
         log.info("insert query: {}", insertQuery.toString());
     }
 
-    private void parseXlsAndCreateTable(Sheet sheet, StringBuilder insertQuery, String tableName) {
+    private void parseXlsAndCreateTable(Sheet sheet, StringBuilder insertQuery, String tableName) throws SQLException {
         StringBuilder createQuery = new StringBuilder();
         createQuery.append("CREATE TABLE ");
         createQuery.append(tableName);
@@ -92,14 +97,15 @@ public class XlsService {
         });
 
         createQuery.delete(createQuery.toString().length()-1, createQuery.toString().length());
-        createQuery.append(");");
+        createQuery.append(")");
 
         insertQuery.delete(insertQuery.toString().length()-1, insertQuery.toString().length());
         insertQuery.append(") VALUES ");
 
         log.info("create query: {}", createQuery.toString());
 
-        jdbcTemplate.execute(createQuery.toString());
+        statement.execute(createQuery.toString());
+        //jdbcTemplate.execute(createQuery.toString());
     }
 
 }
