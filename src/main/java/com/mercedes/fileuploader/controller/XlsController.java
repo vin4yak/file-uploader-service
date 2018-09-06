@@ -14,7 +14,6 @@ import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
 import java.sql.SQLException;
-import java.sql.Statement;
 import java.util.Map;
 
 @RestController
@@ -24,11 +23,8 @@ public class XlsController {
 
     private final XlsService xlsService;
 
-    private final Statement statement;
-
-    public XlsController(XlsService xlsService, Statement statement) {
+    public XlsController(XlsService xlsService) {
         this.xlsService = xlsService;
-        this.statement = statement;
     }
 
     @RequestMapping(value = "/save", method = RequestMethod.POST)
@@ -50,12 +46,6 @@ public class XlsController {
     public ResponseEntity<EmployeeResponse> deleteTable(@RequestParam(value = "deleteTable") String tableName) {
         xlsService.deleteTable(tableName);
         return ResponseEntity.ok(new EmployeeResponse(200, "Table " + tableName + " deleted successfully!"));
-    }
-
-    @RequestMapping(value = "/hadoop", method = RequestMethod.GET)
-    public String saveToHadoop() throws SQLException {
-        statement.execute("INSERT INTO t_hello_world(name) VALUES ('Hello)");
-        return "Done!";
     }
 
 }
