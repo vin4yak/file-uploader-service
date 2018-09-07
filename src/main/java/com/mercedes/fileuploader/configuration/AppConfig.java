@@ -14,7 +14,6 @@ public class AppConfig {
 
     @Bean
     public Statement statement() throws SQLException, ClassNotFoundException {
-        Class.forName("org.apache.hive.jdbc.HiveDriver");
         return DriverManager.getConnection("",
                         "", "").createStatement();
     }
