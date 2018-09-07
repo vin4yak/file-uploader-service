@@ -6,7 +6,6 @@ import org.apache.poi.openxml4j.exceptions.InvalidFormatException;
 import org.apache.poi.ss.usermodel.Sheet;
 import org.apache.poi.ss.usermodel.Workbook;
 import org.apache.poi.ss.usermodel.WorkbookFactory;
-import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -14,19 +13,15 @@ import java.io.File;
 import java.io.IOException;
 import java.sql.SQLException;
 import java.sql.Statement;
-import java.util.List;
 import java.util.Map;
 
 @Service
 @Slf4j
 public class XlsService {
 
-    private final JdbcTemplate jdbcTemplate;
-
     private final Statement statement;
 
-    public XlsService(JdbcTemplate jdbcTemplate, Statement statement) {
-        this.jdbcTemplate = jdbcTemplate;
+    public XlsService(Statement statement) {
         this.statement = statement;
     }
 
@@ -47,17 +42,16 @@ public class XlsService {
         buildInsertQuery(sheet, insertQuery);
 
         statement.execute(insertQuery.toString());
-        //jdbcTemplate.execute(insertQuery.toString());
     }
 
     public Map<String, Object> fetchDetails(String tableName) {
-        List<Map<String, Object>> mapList = jdbcTemplate.queryForList("SELECT * FROM " + tableName + ";");
-
-        return mapList.get(0);
+        //List<Map<String, Object>> mapList = jdbcTemplate.queryForList("SELECT * FROM " + tableName + ";");
+        //return mapList.get(0);
+        return null;
     }
 
-    public void deleteTable(String tableName) {
-        jdbcTemplate.execute("DROP TABLE " + tableName + ";");
+    public void deleteTable(String tableName) throws SQLException {
+        statement.execute("DROP TABLE " + tableName);
     }
 
     private void buildInsertQuery(Sheet sheet, StringBuilder insertQuery) {
@@ -105,7 +99,6 @@ public class XlsService {
         log.info("create query: {}", createQuery.toString());
 
         statement.execute(createQuery.toString());
-        //jdbcTemplate.execute(createQuery.toString());
     }
 
 }
