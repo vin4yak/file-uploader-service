@@ -1,6 +1,6 @@
 buildscript {
 	ext {
-		springBootVersion = '2.1.0.M1'
+        springBootVersion = '1.5.15.RELEASE'
 	}
 	repositories {
 		mavenCentral()
@@ -28,12 +28,16 @@ repositories {
 }
 
 dependencies {
-	compile('org.springframework.boot:spring-boot-starter-web')
+    compile("org.springframework.boot:spring-boot-starter-tomcat")
+    compile('org.springframework.boot:spring-boot-starter-web')
     compile('org.apache.poi:poi:3.17')
     compile('org.apache.poi:poi-ooxml:3.17')
-    compile('org.apache.hive:hive-jdbc:2.0.0') {
+    compile('org.apache.hive:hive-jdbc:1.2.1') {
+    //compile('org.apache.hive:hive-jdbc:2.0.0') { //use this version for mac
         exclude group: 'org.eclipse.jetty.aggregate'
-        exclude group: 'org.slf4j'
+        exclude group: 'org.apache.logging.log4j'
+        exclude group: 'javax.servlet', module: 'javax.servlet-api'
+        exclude group: 'tomcat'
     }
     compile('org.apache.hadoop:hadoop-client:3.1.0') {
         exclude group: 'org.slf4j'
@@ -41,6 +45,6 @@ dependencies {
     compile('io.springfox:springfox-swagger-ui:2.9.2')
     compile('io.springfox:springfox-swagger2:2.9.2')
 
-	compileOnly('org.projectlombok:lombok')
+    compileOnly('org.projectlombok:lombok')
 	testCompile('org.springframework.boot:spring-boot-starter-test')
 }

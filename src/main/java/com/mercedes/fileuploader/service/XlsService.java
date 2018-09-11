@@ -13,7 +13,6 @@ import java.io.File;
 import java.io.IOException;
 import java.sql.SQLException;
 import java.sql.Statement;
-import java.util.Map;
 
 @Service
 @Slf4j
@@ -42,12 +41,6 @@ public class XlsService {
         buildInsertQuery(sheet, insertQuery);
 
         statement.execute(insertQuery.toString());
-    }
-
-    public Map<String, Object> fetchDetails(String tableName) {
-        //List<Map<String, Object>> mapList = jdbcTemplate.queryForList("SELECT * FROM " + tableName + ";");
-        //return mapList.get(0);
-        return null;
     }
 
     public void deleteTable(String tableName) throws SQLException {
